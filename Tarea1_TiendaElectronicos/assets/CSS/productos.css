@@ -79,3 +79,31 @@
   color: var(--color-primary);
   margin-top: 12px;
 }
+
+/* Botón para agregar al carrito */
+.btn-add-cart {
+  margin-top: 10px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-add-cart:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn-add-cart:active {
+  transform: scale(0.98);
+}
+
+/* Transición suave para el filtrado */
+.products-table td {
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
