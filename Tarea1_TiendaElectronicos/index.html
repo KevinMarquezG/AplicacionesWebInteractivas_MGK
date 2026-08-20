@@ -1,11 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Electronicos</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encabezado</title>
+  <!-- Archivo CSS principal que importa a los demás -->
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
-    
+
+  <header class="main-header">
+    <!-- Fila Superior: Logo, Buscador y Acciones de Usuario -->
+    <div class="header-top">
+      
+      <!-- LOGO -->
+      <a href="#" class="logo">
+        <img src="assets/images/logo.png" alt="Logotipo" class="logo-img">
+      </a>
+
+      <!-- BUSCADOR -->
+      <form class="search-bar" action="#" method="GET">
+        <input type="text" placeholder="Buscar en toda la tienda..." aria-label="Buscar productos">
+        <button type="submit" aria-label="Buscar">
+          <!-- Icono de Búsqueda -->
+          <img src="assets/images/icon-search.svg" alt="Buscar" class="icon-search">
+        </button>
+      </form>
+
+      <!-- ACCIONES DE USUARIO -->
+      <div class="user-actions">
+        <!-- Iniciar Sesión -->
+        <a href="#" class="action-item">
+          <span>Iniciar sesión</span>
+          <img src="assets/images/icon-user.svg" alt="Usuario" class="icon-user">
+        </a>
+
+        <!-- Carrito -->
+        <a href="#" class="action-item cart-item">
+          <span>Mi carrito</span>
+          <div class="cart-icon-wrapper">
+            <img src="assets/images/icon-cart.svg" alt="Carrito" class="icon-cart">
+            <span class="cart-badge">0</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Fila Inferior: Menú de Categorías -->
+    <nav class="header-nav">
+      <ul class="nav-list">
+        <li>
+          <a href="#">
+            <img src="assets/images/icon-smarthome.svg" alt="" class="nav-icon">
+            <span>SMART HOME</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img src="assets/images/icon-tv.svg" alt="" class="nav-icon">
+            <span>TV Y VIDEO</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img src="assets/images/icon-audio.svg" alt="" class="nav-icon">
+            <span>AUDIO</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img src="assets/images/icon-cables.svg" alt="" class="nav-icon">
+            <span>CABLES</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img src="assets/images/icon-security.svg" alt="" class="nav-icon">
+            <span>SEGURIDAD</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <img src="assets/images/icon-new.svg" alt="" class="nav-icon">
+            <span>LO NUEVO</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <span>MÁS CATEGORÍAS</span>
+            <img src="assets/images/icon-plus.svg" alt="" class="nav-icon-plus">
+          </a>
+        </li>
+        <!-- Tiendas (Alineado a la derecha) -->
+        <li class="nav-store">
+          <a href="#">
+            <img src="assets/images/icon-location.svg" alt="" class="nav-icon icon-store">
+            <span>TIENDAS</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
 </body>
 </html>

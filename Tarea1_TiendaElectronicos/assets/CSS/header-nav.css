@@ -1,0 +1,51 @@
+.header-nav {
+  border-top: 1px solid var(--color-border-light);
+}
+
+.nav-list {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding: 0 24px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  height: 44px;
+  overflow-x: auto;
+}
+
+.nav-list li a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-nav);
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.nav-list li a:hover {
+  color: var(--color-primary);
+}
+
+.nav-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.nav-icon-plus {
+  width: 10px;
+  height: 10px;
+  margin-left: 2px;
+}
+
+/* Enlace a Tiendas (Extremo derecho) */
+.nav-list .nav-store {
+  margin-left: auto;
+}
+
+.nav-list .nav-store a {
+  color: var(--color-primary);
+}
