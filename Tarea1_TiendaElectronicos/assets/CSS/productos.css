@@ -1,60 +1,49 @@
-/* Contenedor principal de la sección de productos */
-.products-section {
-  max-width: var(--max-width-container);
-  margin: 40px auto;
-  padding: 0 24px;
-}
-
-.section-title {
-  font-size: 22px;
-  color: var(--color-text-dark);
-  margin-bottom: 24px;
-  font-weight: 700;
-  text-align: left;
-}
-
-/* Cuadrícula de 4 columnas */
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+/* Contenedor exterior centrado */
+.products-container {
+  display: flex;
   justify-content: center;
+  padding: 40px 20px;
 }
 
-/* Casilla de producto: Alto = 2x Ancho */
-.product-card {
+/* Tabla 4x4 fija y centrada */
+.products-table {
+  border-collapse: separate;
+  border-spacing: 16px; /* Separación entre casillas */
+  margin: 0 auto;
+  table-layout: fixed;
+  width: 100%;
+  max-width: 1100px;
+}
+
+/* Casilla con proporción 1:2 (ancho: ~250px | alto: 500px) */
+.products-table td {
+  width: 250px;
+  height: 500px;
   background-color: var(--color-white);
-  border: 1px solid var(--color-border-light);
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   padding: 16px;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+
+/* Estructura interna de cada tarjeta de producto */
+.product-card {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  text-decoration: none;
-  color: inherit;
-  aspect-ratio: 1 / 2; /* Garantiza que la altura sea el doble que el ancho */
-  box-sizing: border-box;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  overflow: hidden;
+  align-items: center;
+  text-align: center;
 }
 
-.product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-  border-color: var(--color-primary);
-}
-
-/* Contenedor de la imagen del producto */
-.product-image-container {
+/* Contenedor de la imagen */
+.product-image-box {
   width: 100%;
-  height: 45%;
+  height: 210px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fafafa;
-  border-radius: 4px;
-  overflow: hidden;
-  padding: 10px;
+  margin-bottom: 14px;
 }
 
 .product-img {
@@ -63,47 +52,28 @@
   object-fit: contain;
 }
 
-/* Información del producto (Nombre, Descripción, Precio) */
-.product-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding-top: 12px;
-  justify-content: space-between;
-}
-
-.product-name {
+/* Título */
+.product-title {
   font-size: 14px;
   font-weight: 700;
   color: var(--color-text-dark);
   line-height: 1.3;
-  margin-bottom: 6px;
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  margin-bottom: 8px;
 }
 
-.product-description {
+/* Descripción */
+.product-desc {
   font-size: 12px;
-  color: #777777;
+  color: var(--color-text-nav);
   line-height: 1.4;
-  margin-bottom: 10px;
-  display: -webkit-box;
-  line-clamp: 4;
-  -webkit-box-orient: vertical;
+  margin-bottom: auto; /* Empuja el precio al fondo */
   overflow: hidden;
 }
 
+/* Precio */
 .product-price {
   font-size: 18px;
   font-weight: 700;
-  color: var(--color-orange);
-  margin-top: auto;
-}
-
-.product-price::before {
-  content: "$";
-  font-size: 14px;
-  margin-right: 2px;
+  color: var(--color-primary);
+  margin-top: 12px;
 }
