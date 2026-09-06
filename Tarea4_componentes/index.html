@@ -43,35 +43,67 @@
         </header>
         <br>
         <main>
-            <div class="ejemplo-wrap">
-                <div id="miCarrusel" class="carousel slide" data-bs-ride="carousel">
+            <div id="miCarrusel" class="carousel slide" data-bs-ride="carousel">
 
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#miCarrusel" data-bs-slide-to="0" class="active"></button>
-                        <button type="button" data-bs-target="#miCarrusel" data-bs-slide-to="1"></button>
-                        <button type="button" data-bs-target="#miCarrusel" data-bs-slide-to="2"></button>
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#miCarrusel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#miCarrusel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#miCarrusel" data-bs-slide-to="2"></button>
+                </div>
+                
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="https://picsum.photos/seed/21/800/300" class="d-block w-100" alt="Slide 1">
                     </div>
-                    
-
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="https://picsum.photos/seed/21/800/300" class="d-block w-100" alt="Slide 1">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://picsum.photos/seed/22/800/300" class="d-block w-100" alt="Slide 2">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://picsum.photos/seed/23/800/300" class="d-block w-100" alt="Slide 3">
+                    <div class="carousel-item">
+                        <img src="https://picsum.photos/seed/22/800/300" class="d-block w-100" alt="Slide 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://picsum.photos/seed/23/800/300" class="d-block w-100" alt="Slide 3">
+                    </div>
+                </div>
+                
+                <button class="carousel-control-prev" type="button" data-bs-target="#miCarrusel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#miCarrusel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="https://picsum.photos/seed/1/300/200" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Servicio 1</h5>
+                            <p class="card-text">Descripción del servicio 1.</p>
+                            <span class="badge bg-primary">Nuevo</span>
+                            <a href="#" class="btn btn-primary">Ver mas</a>
                         </div>
                     </div>
-                    
-                    <!-- Controles -->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#miCarrusel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#miCarrusel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                    </button>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="https://picsum.photos/seed/2/300/200" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Servicio 2</h5>
+                            <p class="card-text">Descripción del servicio 2.</p>
+                            <span class="badge bg-success">Popular</span>
+                            <a href="#" class="btn btn-primary">Ver mas</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="https://picsum.photos/seed/3/300/200" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Servicio 3</h5>
+                            <p class="card-text">Descripción del servicio 3.</p>
+                            <span class="badge bg-warning text-dark">Promocion</span>
+                            <a href="#" class="btn btn-primary">Ver mas</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
