@@ -7,7 +7,7 @@ $(document).ready(function () {
         $(".fav-badge").text(favorites.length);
     }
 
-    // Genera 10 estrellas visuales redondeando la calificación
+    //Genera 10 estrellas visuales redondeando la calificación
     function renderStars(rating) {
         const score = parseFloat(rating) || 0;
         const fullStars = Math.round(score);
@@ -89,7 +89,7 @@ $(document).ready(function () {
         renderCards(filtered);
     }
 
-    // 1. Cargar el archivo PELICULAS.json
+    //Cargar el archivo PELICULAS.json
     $.getJSON("./PELICULAS.json")
         .done(function (data) {
             allMovies = data;
@@ -105,7 +105,7 @@ $(document).ready(function () {
             `);
         });
 
-    // 2. Eventos de filtrado por rango de años
+    //Eventos de filtrado por rango de años
     $(".btn-filter").on("click", function () {
         $(".btn-filter").removeClass("active");
         $(this).addClass("active");
@@ -113,7 +113,7 @@ $(document).ready(function () {
         applyFilters();
     });
 
-    // 3. Evento de búsqueda por teclado
+    //Evento de búsqueda por teclado
     $("#search-input").on("input", function () {
         applyFilters();
     });
