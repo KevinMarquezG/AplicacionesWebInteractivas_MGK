@@ -90,7 +90,7 @@ $(document).ready(function () {
     }
 
     // 1. Cargar el archivo PELICULAS.json
-    $.getJSON("PELICULAS.json")
+    $.getJSON("./PELICULAS.json")
         .done(function (data) {
             allMovies = data;
             updateFavCounter();
