@@ -11,29 +11,29 @@ class Task extends Model
         'descripcion',
         'estado',
         'prioridad',
-        'vencimiento'
+        'vencimiento',
     ];
 
     protected $casts = [
-        'vencimiento' => 'date'
+        'vencimiento' => 'date',
     ];
 
     public const ESTADOS = [
         'por_hacer' => 'Por hacer',
         'en_curso'  => 'En curso',
-        'hecha'     => 'Hecha'
+        'hecha'     => 'Hecha',
     ];
 
     public const PRIORIDADES = [
         'baja'  => 'Baja',
         'media' => 'Media',
-        'alta'  => 'Alta'
+        'alta'  => 'Alta',
     ];
 
     public function estaVencida(): bool
     {
-        return (bool) ($this->vencimiento
-            && $this->vencimiento->isPast()
+        return (bool) ($this->vencimiento 
+            && $this->vencimiento->isPast() 
             && $this->estado !== 'hecha');
     }
 }
