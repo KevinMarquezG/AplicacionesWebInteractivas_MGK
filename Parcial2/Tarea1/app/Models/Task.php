@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    //
     protected $fillable = [
         'titulo',
         'descripcion',
@@ -16,24 +15,25 @@ class Task extends Model
     ];
 
     protected $casts = [
-        'vencimiento' => 'data'
+        'vencimiento' => 'date'
     ];
 
     public const ESTADOS = [
         'por_hacer' => 'Por hacer',
-        'en_curso' => 'En curso',
-        'marcha' => 'Marcha'
+        'en_curso'  => 'En curso',
+        'hecha'     => 'Hecha'
     ];
 
     public const PRIORIDADES = [
-        'baja' => 'Baja',
+        'baja'  => 'Baja',
         'media' => 'Media',
-        'alta' => 'Alta' 
+        'alta'  => 'Alta'
     ];
 
-    public function estaVencida(): bool{
-        return $this->vencimiento
+    public function estaVencida(): bool
+    {
+        return (bool) ($this->vencimiento
             && $this->vencimiento->isPast()
-            && $this->estado == 'hecho';
+            && $this->estado !== 'hecha');
     }
 }
