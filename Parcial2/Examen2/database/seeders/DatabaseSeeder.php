@@ -15,11 +15,30 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Administrador Demo
+        User::create([
+            'name' => 'Administrador',
+            'email' => 'admin@torneos.com',
+            'password' => Hash::make('admin12345'),
+            'role' => 'admin',
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Jugador Demo
+        User::create([
+            'name' => 'Jugador Demo',
+            'email' => 'jugador@torneos.com',
+            'password' => Hash::make('jugador12345'),
+            'role' => 'jugador',
+        ]);
+
+        // Torneo Demo
+        Torneo::create([
+            'nombre' => 'Copa de Campeones FC',
+            'juego_deporte' => 'Fútbol 7',
+            'fecha_evento' => Carbon::now()->addDays(10)->setTime(18, 0),
+            'cupo' => 8,
+            'descripcion' => 'Torneo eliminatorio directo en campo sintético.',
+            'activo' => true,
         ]);
     }
 }
