@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Cuenta - Nova Launcher</title>
+    <title>Crear Cuenta - Master Games</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 </head>
@@ -36,7 +36,7 @@
                     <label class="cursor-pointer">
                         <input type="radio" name="role_slug" value="client" class="peer sr-only" checked>
                         <div class="p-3 rounded-xl border border-slate-700 bg-[#090d15] peer-checked:border-cyan-400 peer-checked:bg-cyan-950/20 text-center transition">
-                            <span class="block text-sm font-bold text-slate-200">Jugador / Cliente</span>
+                            <span class="block text-sm font-bold text-slate-200">Jugador</span>
                             <span class="text-[11px] text-slate-400">Comprar y jugar</span>
                         </div>
                     </label>

@@ -11,7 +11,7 @@
     <div class="w-full max-w-md bg-[#111726]/90 backdrop-blur-xl border border-slate-800 rounded-2xl p-8 shadow-2xl">
         <div class="text-center mb-8">
             <div class="inline-flex w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 items-center justify-center font-bold text-3xl text-white shadow-lg shadow-cyan-500/30 mb-4" style="font-family: 'Rajdhani', sans-serif;">
-                N
+                M
             </div>
             <h1 class="text-2xl font-bold tracking-tight text-white" style="font-family: 'Rajdhani', sans-serif;">ACCESO AL LAUNCHER</h1>
             <p class="text-sm text-slate-400 mt-1">Conecta con tu catálogo y comunidad gamer</p>

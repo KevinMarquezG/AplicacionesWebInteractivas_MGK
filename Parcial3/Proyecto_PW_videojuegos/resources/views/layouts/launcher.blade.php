@@ -17,9 +17,9 @@
         <div class="flex items-center space-x-8">
             <div class="flex items-center space-x-3">
                 <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-gaming text-2xl font-bold text-white shadow-lg shadow-cyan-500/20">
-                    N
+                    M
                 </div>
-                <span class="font-gaming text-2xl font-bold tracking-wider text-white">NOVA<span class="text-cyan-400">PLAY</span></span>
+                <span class="font-gaming text-2xl font-bold tracking-wider text-white">Master<span class="text-cyan-400">Games</span></span>
             </div>
 
             <nav class="flex space-x-2">
