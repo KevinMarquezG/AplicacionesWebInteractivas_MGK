@@ -1,7 +1,25 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LauncherController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
+
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Panel Principal: Catálogo y Biblioteca
+    Route::get('/launcher', [LauncherController::class, 'index'])->name('launcher.dashboard');
+    Route::post('/launcher/games/{game}/acquire', [LauncherController::class, 'addToLibrary'])->name('launcher.acquire');
+});
+
