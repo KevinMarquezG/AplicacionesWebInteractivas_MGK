@@ -14,17 +14,10 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->timestamps();
         });
-
-        Schema::create('category_game', function (Blueprint $table) {
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('game_id')->constrained()->cascadeOnDelete();
-            $table->primary(['category_id', 'game_id']);
-        });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('category_game');
         Schema::dropIfExists('categories');
     }
 };
