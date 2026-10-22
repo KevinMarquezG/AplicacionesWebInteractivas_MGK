@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LauncherController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DeveloperGameController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -23,3 +24,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/launcher/games/{game}/acquire', [LauncherController::class, 'addToLibrary'])->name('launcher.acquire');
 });
 
+Route::middleware(['auth', 'role:developer,admin'])->prefix('developer')->name('developer.')->group(function () {
+    Route::resource('games', DeveloperGameController::class);
+});
