@@ -13,9 +13,11 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
+        // Si ya está autenticado, va directo a su panel
         if (Auth::check()) {
-            return redirect()->route('launcher.dashboard');
+            return $this->redirectByRole(Auth::user());
         }
+
         return view('auth.login');
     }
 
@@ -30,18 +32,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            
-            $user = Auth::user();
-            
-            if ($user->isAdmin()) {
-                return redirect()->intended(route('admin.dashboard'));
-            } elseif ($user->isDeveloper()) {
-                return redirect()->intended(route('developer.games'));
-            } elseif ($user->isSupport()) {
-                return redirect()->intended(route('support.tickets'));
-            }
 
-            return redirect()->intended(route('launcher.dashboard'));
+            // Redirección directa y forzada según el rol
+            return $this->redirectByRole(Auth::user());
         }
 
         return back()->withErrors([
@@ -52,7 +45,7 @@ class AuthController extends Controller
     public function showRegister()
     {
         if (Auth::check()) {
-            return redirect()->route('launcher.dashboard');
+            return $this->redirectByRole(Auth::user());
         }
 
         $availableRoles = Role::whereIn('slug', ['client', 'developer'])->get();
@@ -80,7 +73,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('launcher.dashboard')->with('status', '¡Bienvenido a Nova Launcher!');
+        return $this->redirectByRole($user)->with('status', '¡Bienvenido a la plataforma!');
     }
 
     public function logout(Request $request)
@@ -90,5 +83,26 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login');
+    }
+
+    /**
+     * Redirige a cada rol a su vista correspondiente
+     */
+    protected function redirectByRole($user)
+    {
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if ($user->isDeveloper()) {
+            return redirect()->route('developer.games.index');
+        }
+
+        if ($user->isSupport()) {
+            return redirect()->route('support.tickets');
+        }
+
+        // Cliente (Tienda y Biblioteca)
+        return redirect()->route('launcher.dashboard');
     }
 }
