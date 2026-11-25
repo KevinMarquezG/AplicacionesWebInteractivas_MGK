@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('executable_name')->nullable();
             $table->string('download_url')->nullable();
             $table->string('version')->default('1.0.0');
-            $table->enum('status', ['draft', 'pending_approval', 'published', 'rejected'])->default('published');
+            $table->enum('status', ['draft', 'pending_approval', 'published', 'rejected'])->default('pending_approval');
             $table->date('release_date')->nullable();
             $table->timestamps();
         });

@@ -49,6 +49,51 @@
         </div>
     </div>
 
+    <!-- Cola de Moderación de Videojuegos -->
+    <div class="bg-[#111726] border border-amber-800/50 rounded-2xl overflow-hidden shadow-xl">
+        <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+            <div>
+                <h3 class="text-lg font-bold text-amber-300" style="font-family: 'Rajdhani', sans-serif;">VIDEOJUEGOS PENDIENTES DE APROBACIÓN</h3>
+                <p class="text-xs text-slate-400 mt-1">Revisa las publicaciones enviadas por los desarrolladores.</p>
+            </div>
+            <span class="px-3 py-1 rounded-lg bg-amber-950/50 text-amber-300 text-xs font-bold">{{ $pendingGames->count() }} pendientes</span>
+        </div>
+
+        <div class="divide-y divide-slate-800/80">
+            @forelse ($pendingGames as $game)
+                <div class="p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div class="flex items-start gap-4 min-w-0">
+                        <img src="{{ $game->cover_image }}" alt="Portada de {{ $game->title }}" class="w-14 h-16 object-cover rounded-lg border border-slate-700">
+                        <div class="min-w-0">
+                            <h4 class="font-bold text-white">{{ $game->title }} <span class="text-xs text-cyan-400 font-mono">v{{ $game->version }}</span></h4>
+                            <p class="text-xs text-slate-400 mt-1">Desarrollador: {{ $game->developer->name ?? 'No disponible' }} ({{ $game->developer->email ?? 'N/A' }})</p>
+                            <p class="text-xs text-slate-300 mt-2">{{ $game->short_description }}</p>
+                            <div class="flex flex-wrap gap-1 mt-2">
+    @foreach($game->categories as $category)
+        <span class="px-2 py-1 rounded-md bg-slate-800 text-xs text-slate-300">
+            {{ $category->name }}
+        </span>
+    @endforeach
+</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <form method="POST" action="{{ route('support.games.approve', $game) }}">
+                            @csrf
+                            <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950">Aprobar y publicar</button>
+                        </form>
+                        <form method="POST" action="{{ route('support.games.reject', $game) }}" onsubmit="return confirm('¿Deseas rechazar esta publicación?');">
+                            @csrf
+                            <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800">Rechazar</button>
+                        </form>
+                    </div>
+                </div>
+            @empty
+                <div class="py-10 text-center text-sm text-slate-500">No hay videojuegos pendientes de aprobación.</div>
+            @endforelse
+        </div>
+    </div>
+
     <!-- Lista de Incidencias -->
     <div class="bg-[#111726] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
         <div class="p-5 border-b border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">

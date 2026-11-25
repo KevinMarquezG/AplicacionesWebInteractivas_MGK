@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Game;
 
 class SupportController extends Controller
 {
@@ -10,6 +11,12 @@ class SupportController extends Controller
     {
         $filterStatus = $request->query('status', 'all');
         $filterPriority = $request->query('priority', 'all');
+
+        // Cola real de videojuegos pendientes de moderación.
+        $pendingGames = Game::where('status', 'pending_approval')
+            ->with(['developer', 'categories'])
+            ->latest()
+            ->get();
 
         // Casos de soporte del launcher
         $tickets = collect([
@@ -78,6 +85,7 @@ class SupportController extends Controller
 
         return view('support.tickets.index', compact(
             'tickets',
+            'pendingGames',
             'filterStatus',
             'filterPriority',
             'openCount',
@@ -85,6 +93,30 @@ class SupportController extends Controller
             'resolvedToday',
             'avgResponseTime'
         ));
+        
+    }
+
+
+    public function approveGame(Game $game)
+    {
+        if ($game->status !== 'pending_approval') {
+            return back()->with('error', 'Este videojuego ya no está pendiente de revisión.');
+        }
+
+        $game->update(['status' => 'published']);
+
+        return back()->with('success', "El videojuego '{$game->title}' fue aprobado y publicado.");
+    }
+
+    public function rejectGame(Game $game)
+    {
+        if ($game->status !== 'pending_approval') {
+            return back()->with('error', 'Este videojuego ya no está pendiente de revisión.');
+        }
+
+        $game->update(['status' => 'rejected']);
+
+        return back()->with('success', "El videojuego '{$game->title}' fue rechazado.");
     }
 
     public function resolve(Request $request, string $id)

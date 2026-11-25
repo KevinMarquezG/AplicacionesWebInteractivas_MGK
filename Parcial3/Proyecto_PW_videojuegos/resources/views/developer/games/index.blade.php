@@ -111,6 +111,10 @@
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-950 text-amber-400 border border-amber-800/50">
                                         <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-amber-400"></span> En Revisión
                                     </span>
+                                @elseif ($game->status === 'rejected')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-950 text-rose-400 border border-rose-800/50">
+                                        <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-rose-400"></span> Rechazado
+                                    </span>
                                 @else
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">
                                         <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-slate-400"></span> Borrador

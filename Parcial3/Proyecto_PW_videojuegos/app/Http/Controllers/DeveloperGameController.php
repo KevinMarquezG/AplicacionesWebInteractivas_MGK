@@ -55,7 +55,6 @@ class DeveloperGameController extends Controller
             'executable_name' => ['nullable', 'string', 'max:100'],
             'download_url' => ['nullable', 'url', 'max:500'],
             'release_date' => ['nullable', 'date'],
-            'status' => ['required', 'in:draft,pending_approval,published'],
             'categories' => ['required', 'array', 'min:1'],
             'categories.*' => ['exists:categories,id'],
             'cover_file' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:4096'],
@@ -97,14 +96,15 @@ class DeveloperGameController extends Controller
             'executable_name' => $validated['executable_name'] ?? (Str::slug($validated['title']) . '.exe'),
             'download_url' => $validated['download_url'],
             'version' => $validated['version'],
-            'status' => $validated['status'],
+            // Toda nueva publicación debe pasar por moderación.
+            'status' => 'pending_approval',
             'release_date' => $validated['release_date'] ?? now(),
         ]);
 
         $game->categories()->sync($validated['categories']);
 
         return redirect()->route('developer.games.index')
-            ->with('success', "¡El videojuego '{$game->title}' ha sido publicado con éxito!");
+            ->with('success', "¡El videojuego '{$game->title}' fue enviado a revisión. Estará disponible cuando soporte técnico o administración lo aprueben.");
     }
 
     public function edit(Game $game)
@@ -134,7 +134,6 @@ class DeveloperGameController extends Controller
             'executable_name' => ['nullable', 'string', 'max:100'],
             'download_url' => ['nullable', 'url', 'max:500'],
             'release_date' => ['nullable', 'date'],
-            'status' => ['required', 'in:draft,pending_approval,published'],
             'categories' => ['required', 'array', 'min:1'],
             'categories.*' => ['exists:categories,id'],
             'cover_file' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:4096'],
@@ -162,14 +161,15 @@ class DeveloperGameController extends Controller
         $game->version = $validated['version'];
         $game->executable_name = $validated['executable_name'] ?? $game->executable_name;
         $game->download_url = $validated['download_url'];
-        $game->status = $validated['status'];
+        // Los cambios del desarrollador vuelven a requerir aprobación.
+        $game->status = 'pending_approval';
         $game->release_date = $validated['release_date'];
         $game->save();
 
         $game->categories()->sync($validated['categories']);
 
         return redirect()->route('developer.games.index')
-            ->with('success', "¡'{$game->title}' ha sido actualizado correctamente!");
+            ->with('success', "¡'{$game->title}' fue actualizado y enviado nuevamente a revisión!");
     }
 
     public function destroy(Game $game)

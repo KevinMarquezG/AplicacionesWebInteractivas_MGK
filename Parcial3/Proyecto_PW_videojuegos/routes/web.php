@@ -54,6 +54,8 @@ Route::middleware('auth')->group(function () {
     // Consola de Soporte Técnico (Gestión de Tickets e Incidencias)
     Route::middleware('role:support,admin')->prefix('support')->name('support.')->group(function () {
         Route::get('/tickets', [SupportController::class, 'tickets'])->name('tickets');
+        Route::post('/games/{game}/approve', [SupportController::class, 'approveGame'])->name('games.approve');
+        Route::post('/games/{game}/reject', [SupportController::class, 'rejectGame'])->name('games.reject');
         Route::post('/tickets/{id}/resolve', [SupportController::class, 'resolve'])->name('tickets.resolve');
     });
 });

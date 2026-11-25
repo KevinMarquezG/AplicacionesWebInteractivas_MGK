@@ -14,7 +14,17 @@
             </h1>
         </div>
     </div>
+    @if ($errors->any())
+    <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-4">
+        <strong>Se encontraron errores:</strong>
 
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     <form method="POST" action="{{ route('developer.games.store') }}" enctype="multipart/form-data" class="space-y-6">
         @csrf
 
@@ -114,13 +124,9 @@
                                    class="w-full px-3 py-2 rounded-xl bg-[#090d15] border border-slate-700/80 text-slate-100 text-xs focus:outline-none focus:border-cyan-500">
                         </div>
 
-                        <div>
-                            <label for="status" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1">Estado *</label>
-                            <select name="status" id="status" class="w-full px-3 py-2 rounded-xl bg-[#090d15] border border-slate-700/80 text-slate-100 text-xs focus:outline-none focus:border-cyan-500">
-                                <option value="published">Publicado</option>
-                                <option value="pending_approval">En Revisión</option>
-                                <option value="draft">Borrador</option>
-                            </select>
+                        <div class="col-span-2 rounded-xl border border-amber-800/60 bg-amber-950/20 p-3">
+                            <p class="text-xs font-semibold text-amber-300">Publicación sujeta a revisión</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Al enviar el videojuego, quedará pendiente de aprobación por soporte técnico o administración. No aparecerá en la tienda hasta ser autorizado.</p>
                         </div>
                     </div>
                 </div>
@@ -149,7 +155,7 @@
 
                 <button type="submit" 
                         class="w-full py-3.5 px-4 rounded-xl font-bold text-sm uppercase tracking-wider bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 text-white shadow-lg shadow-cyan-500/25 transition transform active:scale-98">
-                    Confirmar y Publicar
+                    Enviar a Revisión
                 </button>
 
             </div>

@@ -46,12 +46,20 @@ class AdminController extends Controller
 
     public function approveGame(Game $game)
     {
+        if ($game->status !== 'pending_approval') {
+            return back()->with('error', 'Este videojuego ya no está pendiente de revisión.');
+        }
+
         $game->update(['status' => 'published']);
         return back()->with('success', "El videojuego '{$game->title}' ha sido aprobado y publicado en la tienda.");
     }
 
     public function rejectGame(Game $game)
     {
+        if ($game->status !== 'pending_approval') {
+            return back()->with('error', 'Este videojuego ya no está pendiente de revisión.');
+        }
+
         $game->update(['status' => 'rejected']);
         return back()->with('info', "El videojuego '{$game->title}' ha sido rechazado.");
     }
