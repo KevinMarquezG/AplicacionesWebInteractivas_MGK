@@ -1,3 +1,4 @@
+
 @extends('layouts.launcher')
 
 @section('content')
@@ -64,54 +65,79 @@
                 <div class="p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     <div class="flex items-start gap-4 min-w-0">
                         <img src="{{ $game->cover_image }}" alt="Portada de {{ $game->title }}" class="w-14 h-16 object-cover rounded-lg border border-slate-700">
+
                         <div class="min-w-0">
-                            <h4 class="font-bold text-white">{{ $game->title }} <span class="text-xs text-cyan-400 font-mono">v{{ $game->version }}</span></h4>
-                            <p class="text-xs text-slate-400 mt-1">Desarrollador: {{ $game->developer->name ?? 'No disponible' }} ({{ $game->developer->email ?? 'N/A' }})</p>
+                            <h4 class="font-bold text-white">
+                                {{ $game->title }}
+                                <span class="text-xs text-cyan-400 font-mono">v{{ $game->version }}</span>
+                            </h4>
+
+                            <p class="text-xs text-slate-400 mt-1">
+                                Desarrollador: {{ $game->developer->name ?? 'No disponible' }}
+                                ({{ $game->developer->email ?? 'N/A' }})
+                            </p>
+
                             <p class="text-xs text-slate-300 mt-2">{{ $game->short_description }}</p>
+
                             <div class="flex flex-wrap gap-1 mt-2">
-    @foreach($game->categories as $category)
-        <span class="px-2 py-1 rounded-md bg-slate-800 text-xs text-slate-300">
-            {{ $category->name }}
-        </span>
-    @endforeach
-</div>
+                                @foreach($game->categories as $category)
+                                    <span class="px-2 py-1 rounded-md bg-slate-800 text-xs text-slate-300">
+                                        {{ $category->name }}
+                                    </span>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
+
                     <div class="flex items-center gap-2 shrink-0">
                         <form method="POST" action="{{ route('support.games.approve', $game) }}">
                             @csrf
-                            <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950">Aprobar y publicar</button>
+                            <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950">
+                                Aprobar y publicar
+                            </button>
                         </form>
+
                         <form method="POST" action="{{ route('support.games.reject', $game) }}" onsubmit="return confirm('¿Deseas rechazar esta publicación?');">
                             @csrf
-                            <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800">Rechazar</button>
+                            <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800">
+                                Rechazar
+                            </button>
                         </form>
                     </div>
                 </div>
             @empty
-                <div class="py-10 text-center text-sm text-slate-500">No hay videojuegos pendientes de aprobación.</div>
+                <div class="py-10 text-center text-sm text-slate-500">
+                    No hay videojuegos pendientes de aprobación.
+                </div>
             @endforelse
         </div>
     </div>
 
     <!-- Lista de Incidencias -->
     <div class="bg-[#111726] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+
+        <!-- Filtros -->
         <div class="p-5 border-b border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+
             <div class="flex items-center space-x-2 overflow-x-auto">
                 <span class="text-xs text-slate-400 font-semibold uppercase mr-2">Estado:</span>
-                <a href="{{ route('support.tickets', ['status' => 'all', 'priority' => $filterPriority]) }}" 
+
+                <a href="{{ route('support.tickets', ['status' => 'all', 'priority' => $filterPriority]) }}"
                    class="px-3 py-1 rounded-lg text-xs font-semibold {{ $filterStatus === 'all' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-800 text-slate-300 hover:bg-slate-700' }}">
                     Todos
                 </a>
-                <a href="{{ route('support.tickets', ['status' => 'abierto', 'priority' => $filterPriority]) }}" 
+
+                <a href="{{ route('support.tickets', ['status' => 'abierto', 'priority' => $filterPriority]) }}"
                    class="px-3 py-1 rounded-lg text-xs font-semibold {{ $filterStatus === 'abierto' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-800 text-slate-300 hover:bg-slate-700' }}">
                     Abiertos
                 </a>
-                <a href="{{ route('support.tickets', ['status' => 'en_proceso', 'priority' => $filterPriority]) }}" 
+
+                <a href="{{ route('support.tickets', ['status' => 'en_proceso', 'priority' => $filterPriority]) }}"
                    class="px-3 py-1 rounded-lg text-xs font-semibold {{ $filterStatus === 'en_proceso' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-800 text-slate-300 hover:bg-slate-700' }}">
                     En Proceso
                 </a>
-                <a href="{{ route('support.tickets', ['status' => 'resuelto', 'priority' => $filterPriority]) }}" 
+
+                <a href="{{ route('support.tickets', ['status' => 'resuelto', 'priority' => $filterPriority]) }}"
                    class="px-3 py-1 rounded-lg text-xs font-semibold {{ $filterStatus === 'resuelto' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-800 text-slate-300 hover:bg-slate-700' }}">
                     Resueltos
                 </a>
@@ -119,40 +145,64 @@
 
             <div class="flex items-center space-x-2">
                 <span class="text-xs text-slate-400 font-semibold uppercase mr-2">Prioridad:</span>
-                <a href="{{ route('support.tickets', ['status' => $filterStatus, 'priority' => 'urgente']) }}" 
+
+                <a href="{{ route('support.tickets', ['status' => $filterStatus, 'priority' => 'all']) }}"
+                   class="px-2.5 py-1 rounded-lg text-xs font-semibold {{ $filterPriority === 'all' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-800 text-slate-300 hover:bg-slate-700' }}">
+                    Todas
+                </a>
+
+                <a href="{{ route('support.tickets', ['status' => $filterStatus, 'priority' => 'urgente']) }}"
                    class="px-2.5 py-1 rounded-lg text-xs font-semibold {{ $filterPriority === 'urgente' ? 'bg-rose-500 text-white' : 'bg-slate-800 text-rose-400 hover:bg-slate-700' }}">
                     Urgente
                 </a>
-                <a href="{{ route('support.tickets', ['status' => $filterStatus, 'priority' => 'alta']) }}" 
+
+                <a href="{{ route('support.tickets', ['status' => $filterStatus, 'priority' => 'alta']) }}"
                    class="px-2.5 py-1 rounded-lg text-xs font-semibold {{ $filterPriority === 'alta' ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-amber-400 hover:bg-slate-700' }}">
                     Alta
+                </a>
+
+                <a href="{{ route('support.tickets', ['status' => $filterStatus, 'priority' => 'normal']) }}"
+                   class="px-2.5 py-1 rounded-lg text-xs font-semibold {{ $filterPriority === 'normal' ? 'bg-slate-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700' }}">
+                    Normal
                 </a>
             </div>
         </div>
 
+        <!-- Tickets -->
         <div class="divide-y divide-slate-800/80">
             @forelse ($tickets as $t)
                 <div class="p-5 hover:bg-slate-900/40 transition space-y-3">
+
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
                         <div class="flex items-center space-x-3">
                             <span class="font-mono text-xs font-bold text-cyan-400 bg-slate-900 px-2.5 py-1 rounded-md border border-slate-700">
-                                {{ $t->id }}
+                                #{{ $t->id }}
                             </span>
+
                             <span class="text-xs px-2 py-0.5 rounded font-semibold bg-indigo-950 text-indigo-300 border border-indigo-800/50">
                                 {{ $t->category }}
                             </span>
-                            @if ($t->game_title)
-                                <span class="text-xs text-slate-400">Juego: <b class="text-slate-200">{{ $t->game_title }}</b></span>
+
+                            @if ($t->game)
+                                <span class="text-xs text-slate-400">
+                                    Juego: <b class="text-slate-200">{{ $t->game->title }}</b>
+                                </span>
                             @endif
                         </div>
 
                         <div class="flex items-center space-x-3 text-xs">
                             @if ($t->priority === 'urgente')
-                                <span class="px-2 py-0.5 rounded font-bold uppercase text-[10px] bg-rose-950 text-rose-400 border border-rose-800">Urgente</span>
+                                <span class="px-2 py-0.5 rounded font-bold uppercase text-[10px] bg-rose-950 text-rose-400 border border-rose-800">
+                                    Urgente
+                                </span>
                             @elseif ($t->priority === 'alta')
-                                <span class="px-2 py-0.5 rounded font-bold uppercase text-[10px] bg-amber-950 text-amber-400 border border-amber-800">Alta</span>
+                                <span class="px-2 py-0.5 rounded font-bold uppercase text-[10px] bg-amber-950 text-amber-400 border border-amber-800">
+                                    Alta
+                                </span>
                             @else
-                                <span class="px-2 py-0.5 rounded font-bold uppercase text-[10px] bg-slate-800 text-slate-400">Normal</span>
+                                <span class="px-2 py-0.5 rounded font-bold uppercase text-[10px] bg-slate-800 text-slate-400">
+                                    Normal
+                                </span>
                             @endif
 
                             <span class="text-slate-500">{{ $t->created_at->diffForHumans() }}</span>
@@ -161,6 +211,7 @@
 
                     <div>
                         <h4 class="text-base font-bold text-white">{{ $t->subject }}</h4>
+
                         <p class="text-xs text-slate-300 mt-1 leading-relaxed bg-[#090d15] p-3 rounded-xl border border-slate-800">
                             {{ $t->message }}
                         </p>
@@ -168,14 +219,18 @@
 
                     <div class="flex items-center justify-between pt-1">
                         <div class="text-xs text-slate-400">
-                            Usuario: <span class="text-slate-200 font-semibold">{{ $t->user_name }}</span> ({{ $t->user_email }})
+                            Usuario:
+                            <span class="text-slate-200 font-semibold">
+                                {{ $t->user?->name ?? 'Usuario eliminado' }}
+                            </span>
+                            ({{ $t->user?->email ?? 'Sin correo' }})
                         </div>
 
                         <div>
                             @if ($t->status !== 'resuelto')
                                 <form method="POST" action="{{ route('support.tickets.resolve', $t->id) }}">
                                     @csrf
-                                    <button type="submit" 
+                                    <button type="submit"
                                             class="px-4 py-1.5 rounded-lg text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition">
                                         Resolver Ticket
                                     </button>
@@ -185,6 +240,7 @@
                             @endif
                         </div>
                     </div>
+
                 </div>
             @empty
                 <div class="py-12 text-center text-slate-500 text-xs">

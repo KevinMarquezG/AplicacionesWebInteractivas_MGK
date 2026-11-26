@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Game;
+use App\Models\Ticket;
 
 class SupportController extends Controller
 {
@@ -12,76 +13,61 @@ class SupportController extends Controller
         $filterStatus = $request->query('status', 'all');
         $filterPriority = $request->query('priority', 'all');
 
-        // Cola real de videojuegos pendientes de moderación.
+        // Videojuegos pendientes de moderación.
         $pendingGames = Game::where('status', 'pending_approval')
             ->with(['developer', 'categories'])
             ->latest()
             ->get();
 
-        // Casos de soporte del launcher
-        $tickets = collect([
-            (object)[
-                'id' => 'TCK-1042',
-                'user_name' => 'Alex Gamer',
-                'user_email' => 'cliente@launcher.test',
-                'game_title' => 'Cyber Odyssey 2088',
-                'category' => 'Error de Descarga',
-                'subject' => 'Fallo al verificar archivos locales en la actualización 1.0.1',
-                'message' => 'Al hacer clic en descargar, la barra se detiene en 85% y marca error de checksum en el ejecutable.',
-                'priority' => 'alta',
-                'status' => 'abierto',
-                'created_at' => now()->subHours(2),
-            ],
-            (object)[
-                'id' => 'TCK-1039',
-                'user_name' => 'Lucas99',
-                'user_email' => 'lucas99@gmail.com',
-                'game_title' => 'Stellar Vanguard',
-                'category' => 'Billetera',
-                'subject' => 'Saldo no reflejado tras recarga con tarjeta de débito',
-                'message' => 'Hice una recarga de $25 USD pero mi saldo sigue mostrando $0.00 en la esquina superior del launcher.',
-                'priority' => 'urgente',
-                'status' => 'en_proceso',
-                'created_at' => now()->subHours(5),
-            ],
-            (object)[
-                'id' => 'TCK-1035',
-                'user_name' => 'Indie Studios',
-                'user_email' => 'dev@launcher.test',
-                'game_title' => 'Cyber Odyssey 2088',
-                'category' => 'Portal Desarrollador',
-                'subject' => 'Consulta sobre el formato de banner en resolución 4K',
-                'message' => 'Quisiéramos actualizar el banner hero a resolución panorámica 3840x2160 sin pérdida de calidad.',
-                'priority' => 'media',
-                'status' => 'en_proceso',
-                'created_at' => now()->subDay(),
-            ],
-            (object)[
-                'id' => 'TCK-1028',
-                'user_name' => 'MartinaV',
-                'user_email' => 'martina@gmail.com',
-                'game_title' => 'Cyber Odyssey 2088',
-                'category' => 'Reembolso',
-                'subject' => 'Reembolso por incompatibilidad de tarjeta gráfica',
-                'message' => 'Mi equipo no cumple los requisitos mínimos y el juego no inicia. Tengo menos de 30 minutos jugados.',
-                'priority' => 'baja',
-                'status' => 'resuelto',
-                'created_at' => now()->subDays(2),
-            ],
-        ]);
+        // Tickets reales registrados por los clientes.
+        $ticketQuery = Ticket::with(['user', 'game', 'replies.user'])
+            ->latest();
 
         if ($filterStatus !== 'all') {
-            $tickets = $tickets->where('status', $filterStatus);
+            $ticketQuery->where('status', $filterStatus);
         }
 
         if ($filterPriority !== 'all') {
-            $tickets = $tickets->where('priority', $filterPriority);
+            $ticketQuery->where('priority', $filterPriority);
         }
 
-        $openCount = 12;
-        $inProgressCount = 5;
-        $resolvedToday = 18;
-        $avgResponseTime = '24 min';
+        $tickets = $ticketQuery->get();
+
+        // Métricas reales.
+        $openCount = Ticket::where('status', 'abierto')->count();
+
+        $inProgressCount = Ticket::where('status', 'en_proceso')->count();
+
+        $resolvedToday = Ticket::where('status', 'resuelto')
+            ->whereDate('updated_at', today())
+            ->count();
+
+        // Tiempo promedio de primera respuesta.
+        $ticketsWithReplies = Ticket::whereHas('replies')
+            ->with(['replies' => function ($query) {
+                $query->orderBy('created_at');
+            }])
+            ->get();
+
+        $responseTimes = $ticketsWithReplies->map(function ($ticket) {
+            $firstReply = $ticket->replies->first();
+
+            return $firstReply
+                ? $ticket->created_at->diffInSeconds($firstReply->created_at)
+                : null;
+        })->filter();
+
+        if ($responseTimes->isNotEmpty()) {
+            $averageSeconds = $responseTimes->avg();
+
+            if ($averageSeconds < 3600) {
+                $avgResponseTime = round($averageSeconds / 60) . ' min';
+            } else {
+                $avgResponseTime = round($averageSeconds / 3600, 1) . ' h';
+            }
+        } else {
+            $avgResponseTime = 'Sin respuestas';
+        }
 
         return view('support.tickets.index', compact(
             'tickets',
@@ -93,9 +79,7 @@ class SupportController extends Controller
             'resolvedToday',
             'avgResponseTime'
         ));
-        
     }
-
 
     public function approveGame(Game $game)
     {
@@ -121,6 +105,47 @@ class SupportController extends Controller
 
     public function resolve(Request $request, string $id)
     {
-        return back()->with('success', "Ticket {$id} marcado como resuelto.");
+        $ticket = Ticket::findOrFail($id);
+
+        if ($ticket->status === 'resuelto') {
+            return back()->with('error', 'Este ticket ya se encuentra resuelto.');
+        }
+
+        $ticket->update([
+            'status' => 'resuelto',
+        ]);
+
+        return back()->with('success', "Ticket #{$ticket->id} marcado como resuelto.");
+    }
+
+    // Mostrar el detalle y conversación de un ticket
+    public function show(Ticket $ticket)
+    {
+        $ticket->load(['user', 'game', 'replies.user']);
+
+        return view('support.tickets.show', compact('ticket'));
+    }
+
+    // Registrar una respuesta del personal de soporte
+    public function reply(Request $request, Ticket $ticket)
+    {
+        if ($ticket->status === 'resuelto') {
+            return back()->with('error', 'Este ticket ya está resuelto.');
+        }
+
+        $validated = $request->validate([
+            'message' => ['required', 'string', 'max:5000'],
+        ]);
+
+        $ticket->replies()->create([
+            'user_id' => auth()->id(),
+            'message' => $validated['message'],
+        ]);
+
+        $ticket->update([
+            'status' => 'en_proceso',
+        ]);
+
+        return back()->with('success', 'La respuesta fue enviada correctamente.');
     }
 }

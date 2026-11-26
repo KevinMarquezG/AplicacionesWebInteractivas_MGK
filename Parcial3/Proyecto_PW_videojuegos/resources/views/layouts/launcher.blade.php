@@ -31,6 +31,15 @@
                    class="px-4 py-2 rounded-md font-semibold text-sm transition-all duration-200 {{ request('tab', 'catalog') === 'library' ? 'bg-slate-800 text-cyan-400 border-b-2 border-cyan-400' : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/50' }}">
                     BIBLIOTECA
                 </a>
+                @if (Auth::user()->role->slug === 'client')
+                    <a href="{{ route('client.tickets.index') }}"
+                    class="px-4 py-2 rounded-md font-semibold text-sm transition-all duration-200
+                    {{ request()->routeIs('client.tickets.*')
+                            ? 'bg-slate-800 text-cyan-400 border-b-2 border-cyan-400'
+                            : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/50' }}">
+                        SOPORTE
+                    </a>
+                @endif
             </nav>
         </div>
 

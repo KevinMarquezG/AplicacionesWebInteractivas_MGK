@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DeveloperGameController;
 use App\Http\Controllers\LauncherController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\ClientTicketController;
 use Illuminate\Support\Facades\Route;
 
 // 1. Redirección raíz
@@ -57,5 +58,30 @@ Route::middleware('auth')->group(function () {
         Route::post('/games/{game}/approve', [SupportController::class, 'approveGame'])->name('games.approve');
         Route::post('/games/{game}/reject', [SupportController::class, 'rejectGame'])->name('games.reject');
         Route::post('/tickets/{id}/resolve', [SupportController::class, 'resolve'])->name('tickets.resolve');
+        // Consultar el detalle de un ticket
+        Route::get('/tickets/{ticket}', [SupportController::class, 'show'])
+            ->name('tickets.show');
+
+        // Enviar una respuesta
+        Route::post('/tickets/{ticket}/reply', [SupportController::class, 'reply'])
+            ->name('tickets.reply');
+    });
+
+    Route::middleware('role:client')->prefix('client')->name('client.')->group(function () {
+        Route::get('/tickets', [ClientTicketController::class, 'index'])
+            ->name('tickets.index');
+
+        Route::get('/tickets/create', [ClientTicketController::class, 'create'])
+            ->name('tickets.create');
+
+        Route::post('/tickets', [ClientTicketController::class, 'store'])
+            ->name('tickets.store');
+        // Consultar el detalle de un ticket
+        Route::get('/tickets/{ticket}', [ClientTicketController::class, 'show'])
+            ->name('tickets.show');
+
+        // Enviar una respuesta
+        Route::post('/tickets/{ticket}/reply', [ClientTicketController::class, 'reply'])
+            ->name('tickets.reply');
     });
 });
