@@ -79,4 +79,9 @@ class User extends Authenticatable
     {
         return $this->hasRole('client');
     }
+    
+    public function walletTransactions(): HasMany
+    {
+        return $this->hasMany(WalletTransaction::class);
+    }
 }

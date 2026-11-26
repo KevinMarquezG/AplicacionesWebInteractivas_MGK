@@ -40,13 +40,20 @@
                         SOPORTE
                     </a>
                 @endif
+                <a href="{{ route('client.wallet') }}"
+                class="px-4 py-2 rounded-md font-semibold text-sm transition-all duration-200
+                {{ request()->routeIs('client.wallet*')
+                        ? 'bg-slate-800 text-cyan-400 border-b-2 border-cyan-400'
+                        : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/50' }}">
+                    MONEDERO
+                </a>
             </nav>
         </div>
 
         <div class="flex items-center space-x-5">
             <div class="bg-[#182030] px-3.5 py-1.5 rounded-full border border-slate-700/60 flex items-center space-x-2 text-xs">
-                <span class="text-slate-400">Billetera:</span>
-                <span class="text-emerald-400 font-bold">${{ number_format(Auth::user()->wallet_balance, 2) }}</span>
+                <span class="text-slate-400">NL Coins:</span>
+                <span class="text-emerald-400 font-bold">{{ number_format(Auth::user()->wallet_balance, 2) }}</span>
             </div>
 
             <div class="flex items-center space-x-3">

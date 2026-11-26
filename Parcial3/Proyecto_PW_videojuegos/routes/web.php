@@ -6,6 +6,7 @@ use App\Http\Controllers\DeveloperGameController;
 use App\Http\Controllers\LauncherController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\ClientTicketController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 // 1. Redirección raíz
@@ -83,5 +84,12 @@ Route::middleware('auth')->group(function () {
         // Enviar una respuesta
         Route::post('/tickets/{ticket}/reply', [ClientTicketController::class, 'reply'])
             ->name('tickets.reply');
+
+        // Monedero NL Coins
+        Route::get('/wallet', [WalletController::class, 'index'])
+        ->name('wallet');
+
+        Route::post('/wallet/redeem', [WalletController::class, 'redeem'])
+        ->name('wallet.redeem');
     });
 });

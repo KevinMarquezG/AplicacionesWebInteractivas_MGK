@@ -65,7 +65,12 @@ class ClientTicketController extends Controller
         // Verificar que el ticket pertenezca al cliente autenticado
         abort_unless($ticket->user_id === auth()->id(), 404);
 
-        $ticket->load(['game', 'replies.user']);
+        $ticket->load([
+            'game',
+            'replies' => function ($query) {
+                $query->with('user')->orderBy('created_at', 'asc');
+            },
+        ]);
 
         return view('client.tickets.show', compact('ticket'));
     }

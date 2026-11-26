@@ -121,7 +121,13 @@ class SupportController extends Controller
     // Mostrar el detalle y conversación de un ticket
     public function show(Ticket $ticket)
     {
-        $ticket->load(['user', 'game', 'replies.user']);
+        $ticket->load([
+            'user',
+            'game',
+            'replies' => function ($query) {
+                $query->with('user')->orderBy('created_at', 'asc');
+            },
+        ]);
 
         return view('support.tickets.show', compact('ticket'));
     }

@@ -1,4 +1,3 @@
-
 @extends('layouts.launcher')
 
 @section('content')
@@ -61,7 +60,10 @@
                     Prioridad: {{ ucfirst($ticket->priority) }}
                     · {{ $ticket->created_at->diffForHumans() }}
                 </div>
-
+                <a href="{{ route('client.tickets.show', $ticket) }}"
+                class="inline-block text-sm font-bold text-cyan-400 hover:text-cyan-300 mt-2">
+                    Ver conversación →
+                </a>
             </div>
         @empty
             <div class="p-10 text-center text-slate-400">

@@ -1,4 +1,3 @@
-
 @extends('layouts.launcher')
 
 @section('content')
@@ -234,6 +233,10 @@
                                             class="px-4 py-1.5 rounded-lg text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition">
                                         Resolver Ticket
                                     </button>
+                                    <a href="{{ route('support.tickets.show', $t) }}"
+   class="inline-block px-4 py-1.5 rounded-lg text-xs font-bold bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-800 transition">
+    Ver conversación
+</a>
                                 </form>
                             @else
                                 <span class="text-xs font-bold text-emerald-400">✓ Resuelto</span>
